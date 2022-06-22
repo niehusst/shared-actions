@@ -1,0 +1,6 @@
+name: 'PR title check'
+description: 'Enforce Conventional Commit Conformance'
+
+runs:
+    using: node16
+    main: 'run.js'
