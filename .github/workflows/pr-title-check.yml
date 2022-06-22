@@ -1,0 +1,13 @@
+name: 'PR title check'
+
+on:
+    pull_request:
+        types: [opened, edited, reopened, synchronize]
+
+jobs:
+    title-check:
+        runs-on: ubuntu-latest
+        timeout: 5
+        steps:
+            - uses: checkout@v3
+            - uses: ./pr-title-check #niehusst/sharec-actions@dist
