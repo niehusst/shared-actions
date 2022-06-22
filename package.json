@@ -2,7 +2,7 @@
   "name": "shared-actions",
   "scripts": {
     "test-js": "ava",
-    "lint-js": "eslint"
+    "lint-js": "eslint . --ignore-pattern node_modules"
   },
   "devDependencies": {
     "ava": "^4.3.0",
