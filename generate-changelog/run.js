@@ -22,8 +22,8 @@ async function run({ core = coreImport, exec = execImport }) {
   }
 
   const { stdout: commits } = await exec(
-      `git --no-pager log --no-merges --reverse --format="%s (%an)" ${ancestryFlag} ${refRange}`,
-      { cwd: workingDirecotry }
+    `git --no-pager log --no-merges --reverse --format="%s (%an)" ${ancestryFlag} ${refRange}`,
+    { cwd: workingDirecotry },
   );
 
   let changelog;
@@ -31,7 +31,7 @@ async function run({ core = coreImport, exec = execImport }) {
   if (commits) {
     const feats = [];
     const fixes = [];
-    
+
     commits.split('\n').forEach((commit) => {
       if (commit.match(/^feat/m)) {
         feats.push(commit);
@@ -39,7 +39,6 @@ async function run({ core = coreImport, exec = execImport }) {
       }
       if (commit.match(/^fix/m)) {
         fixes.push(commit);
-        return;
       }
     });
 

@@ -20,7 +20,7 @@ async function run({ core = coreImport, exec = execImport } = {}) {
 
   const { stdout: commits } = await exec(
     `git --no-pager log --ancestry-path --no-merges --format="${subjectHeader}%s%n${bodyHeader}%b" ${latestTag}..${ref}`,
-    { cwd: workingDirectory }
+    { cwd: workingDirectory },
   );
 
   let releaseType = 'none';
@@ -29,7 +29,7 @@ async function run({ core = coreImport, exec = execImport } = {}) {
     const [subject, body] = commit.split(bodyHeader);
     const commitMatched = subject.trim().match(commitMatcher);
     if (commitMatched) {
-      const [/*full match*/, type, /*scope*/, breaking] = commitMatched;
+      const [/* full match */, type, /* scope */, breaking] = commitMatched;
 
       // breaking changes can be marked in either commit title or body
       if (breaking || (body && body.match('BREAKING CHANGE'))) {
@@ -37,7 +37,7 @@ async function run({ core = coreImport, exec = execImport } = {}) {
         return; // nothing beats major
       }
 
-      let currReleaseType = undefined;
+      let currReleaseType;
       switch (type) {
         case COMMIT_TYPES.FEAT:
           currReleaseType = 'minor';
@@ -73,7 +73,7 @@ async function run({ core = coreImport, exec = execImport } = {}) {
 module.exports = run;
 
 if (require.main === 'module') {
-  run().catch(e => {
+  run().catch((e) => {
     console.error(e);
     coreImport.setFailed(e);
   });
