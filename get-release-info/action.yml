@@ -1,0 +1,53 @@
+name: get-release-info
+description: get data for a release
+
+inputs:
+  ref:
+    description: use this ref as the HEAD
+    required: false
+    default: HEAD
+  tag_filter:
+    description: pattern to match the latest tag against
+    required: false
+  working_directory:
+    description: the dir relative to GITHUB_WORKSPACE to run commands in
+    required: false
+    default: .
+
+outputs:
+  changelog_base64:
+    description: base64 encoded changelog text
+    value: ${{ steps.changelog.outputs.changelog_base64 }}
+  version:
+    description: semantic version for the release
+    value: ${{ steps.version.outputs.version }}
+  type:
+    description: type of release (major, minor, patch)
+    value: ${{ tesps.version.outputs.type }}
+  tag:
+    description: tag to use for this release
+    value: v${{ steps.version.outputs.version }}
+
+runs:
+  using: composite
+  steps:
+    - uses: niehusst/shared-actions/get-latest-tag@dist
+      id: latest_tag
+      with:
+        ref: ${{ inputs.ref }}
+        matching: ${{ inputs.tag_filter }}
+        working_directory: ${{ inputs.working_directory }}
+
+    - uses: niehusst/shared-actions/generate-changelog@dist
+      id: changelog
+      with:
+        since_ref: ${{ steps.latest_tag.outputs.tag_name }}
+        ref: ${{ inputs.ref }}
+        working_directory: ${{ inputs.working_directory }}
+
+    - uses: niehusst/shared-actions/get-release-version@dist
+      id: version
+      with:
+        ref: ${{ inputs.ref }}
+        latest_tag: ${{ steps.latest_tag.outputs.tag_name }}
+        working_directory: ${{ inputs.working_directory }}
