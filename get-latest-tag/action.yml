@@ -1,0 +1,29 @@
+name: get-latest-tag
+
+inputs:
+  ref:
+    description: only check tags available on this ref or earlier
+    required: false
+  matching:
+    description: pattern for matching tag names
+    required: false
+  working_directory:
+    description: the dir relative to GITHUB_WORKSPACE to run commands
+    required: false
+    default: .
+
+outputs:
+  tag_name:
+    description: name of the latest tag matching the given inputs
+    value: ${{ steps.latest_tag.outputs.tag_name }}
+
+runs:
+  using: composite
+  steps:
+    - id: latest_tag
+      run: ${{ github.action_path }}/run.bash
+      env:
+        REF: ${{ inputs.ref }}
+        MATCHING: ${{ inputs.matching }}
+      shell: bash
+      working-directory: ${{ inputs.working_directory }}
