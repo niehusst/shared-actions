@@ -10,9 +10,12 @@ class CoreStub {
     this.setFailed = sinon.spy();
   }
 
-  getInputString(key) {
+  getInputString(key, options) {
     const value = this.inputs[key];
     if (!value) {
+      if (options.required) {
+        throw new Error(`The input ${key} is required but was empty.`);
+      }
       return '';
     }
     return String(value);

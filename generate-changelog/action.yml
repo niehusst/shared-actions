@@ -1,0 +1,23 @@
+name: generate-changelog
+description: generates changelog from commits in a range
+
+inputs:
+  since_ref:
+    description: the ref to starge collecting commits from
+    required: false
+  ref:
+    description: the ref to treat as HEAD
+    required: false
+    default: HEAD
+  working_directory:
+    description: the dir relative to GITHUB_WORKSPACE to run commands
+    required: false
+    default: .
+
+outputs:
+  changelog_base64:
+    description: the changelog, base64 encoded
+
+runs:
+  using: node16
+  main: run.js

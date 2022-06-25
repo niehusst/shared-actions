@@ -1,0 +1,25 @@
+name: get-release-version
+descirption: Get version info for next release
+
+inputs:
+  latest_tag:
+    description: tag to use as the range start when checking commit logs
+    required: true
+  ref:
+    description: the ref to treat as HEAD
+    required: false
+    default: HEAD
+  working_directory:
+    description: dir relative to GITHUB_WORKSPACE to run commands in
+    required: false
+    default: .
+
+outputs:
+  type:
+    descirption: type of next release (major, minor, patch)
+  version:
+    description: semantic version number of next release
+
+runs:
+  using: node16
+  main: run.js
