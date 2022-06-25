@@ -1,5 +1,5 @@
 const coreImport = require('@actions/core');
-const execImport = require('utils').promisify(require('child_process').exec);
+const execImport = require('util').promisify(require('child_process').exec);
 
 function makeList(array) {
   if (array.length === 0) {
@@ -23,7 +23,7 @@ async function run({ core = coreImport, exec = execImport }) {
 
   const { stdout: commits } = await exec(
     `git --no-pager log --no-merges --reverse --format="%s (%an)" ${ancestryFlag} ${refRange}`,
-    { cwd: workingDirecotry },
+    { cwd: workingDirectory },
   );
 
   let changelog;
@@ -45,11 +45,11 @@ async function run({ core = coreImport, exec = execImport }) {
     changelog = `
 ## Features
 
-${feats.map((commit) => ` * ${commit}`).join('\n')}
+${makeList(feats)}
 
 ## Fixes
 
-${fixes.map((commit) => ` * ${commit}`).join('\n')}
+${makeList(fixes)}
 `;
   } else {
     changelog = 'No changes';

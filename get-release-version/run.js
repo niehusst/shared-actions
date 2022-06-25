@@ -1,6 +1,6 @@
 const semver = require('semver');
 const coreImport = require('@actions/core');
-const execImport = require('utils').promisify(require('child_process').exec);
+const execImport = require('util').promisify(require('child_process').exec);
 const { commitMatcher, COMMIT_TYPES } = require('../helpers/utils');
 
 const releaseRank = {
@@ -25,6 +25,7 @@ async function run({ core = coreImport, exec = execImport } = {}) {
 
   let releaseType = 'none';
 
+  // eslint-disable-next-line no-restricted-syntax
   for (const commit of commits.trim().split(subjectHeader)) {
     const [subject, body] = commit.split(bodyHeader);
     const commitMatched = subject.trim().match(commitMatcher);
@@ -33,8 +34,8 @@ async function run({ core = coreImport, exec = execImport } = {}) {
 
       // breaking changes can be marked in either commit title or body
       if (breaking || (body && body.match('BREAKING CHANGE'))) {
-        releaseType = releaseRank.major;
-        return; // nothing beats major
+        releaseType = 'major';
+        break;
       }
 
       let currReleaseType;

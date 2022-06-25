@@ -11,7 +11,7 @@ const COMMIT_TYPES = Object.freeze({
   TEST: 'test',
 });
 
-const commitMatcher = new RegExp(`^(?<type>${Object.values(COMMIT_TYPES).join('|')})(\([^)]+\))?(?<breaking>!)?:.*$`);
+const commitMatcher = new RegExp(`^(?<type>${Object.values(COMMIT_TYPES).join('|')})(\\([^)]+\\))?(?<breaking>!)?:.*$`);
 
 module.exports = {
   commitMatcher,
