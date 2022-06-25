@@ -18,6 +18,7 @@ jobs:
               with:
                 ref: dist
             - run: |-
+                git fetch origin
                 git merge --no-edit origin/main
                 npm ci
                 cp .gitignore.dist .gitignore
