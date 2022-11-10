@@ -1,4 +1,9 @@
 # shared-actions
 A collection of helpful GitHub Actions
 
-TODO: setup/usage docs
+## Usage 
+
+Use in your GitHub Actions yaml as follows:
+```
+- uses: niehusst/shared-actions/action-name@dist
+```
