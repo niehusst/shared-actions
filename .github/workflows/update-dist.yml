@@ -17,14 +17,16 @@ jobs:
             - uses: actions/checkout@v3
               with:
                 ref: dist
+                fetch-depth: 0
             - name: setup git auth
               run: |-
-                git config --global user.name "Liam CI"
+                git config user.name "Liam CI"
+                git config user.email "dummy@fakeemail.com"
             - run: |-
                 git fetch origin
-                git merge --no-edit --allow-unrelated-histories origin/main
+                git merge --no-edit origin/main
                 npm ci
                 cp .gitignore.dist .gitignore
-                git add node_modules
+                git add .
                 git commit -m "ci: update actions [ci skip]"
-                git push -f origin
+                git push origin

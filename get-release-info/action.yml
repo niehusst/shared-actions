@@ -23,7 +23,7 @@ outputs:
     value: ${{ steps.version.outputs.version }}
   type:
     description: type of release (major, minor, patch)
-    value: ${{ tesps.version.outputs.type }}
+    value: ${{ steps.version.outputs.type }}
   tag:
     description: tag to use for this release
     value: v${{ steps.version.outputs.version }}
