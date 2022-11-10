@@ -27,6 +27,6 @@ jobs:
                 git merge --no-edit origin/main
                 npm ci
                 cp .gitignore.dist .gitignore
-                git add node_modules
+                git add .
                 git commit -m "ci: update actions [ci skip]"
                 git push origin
