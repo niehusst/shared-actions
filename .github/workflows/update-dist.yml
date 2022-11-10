@@ -22,9 +22,9 @@ jobs:
                 git config --global user.name "Liam CI"
             - run: |-
                 git fetch origin
-                git merge --no-edit --allow-unrelated-histories origin/main
+                git merge --no-edit origin/main
                 npm ci
                 cp .gitignore.dist .gitignore
                 git add node_modules
                 git commit -m "ci: update actions [ci skip]"
-                git push -f origin
+                git push origin
