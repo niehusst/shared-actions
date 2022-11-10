@@ -1,0 +1,64 @@
+name: release-github
+description: create a release in github using provided parameters
+
+inputs:
+  token:
+    description: github token to use to auth API request. Required if creating a release in a repo other than the one CI is running in
+    required: false
+    default: ${{ secrets.GITHUB_TOKEN }}
+  owner:
+    description: github owner repo is located in
+    required: true
+  repo:
+    description: github repo to create release in
+    required: true
+  name:
+    description: name to give to created release
+    required: true
+  tag:
+    description: tag to create the release from
+    required: true
+  body:
+    description: body text to give to created release
+    required: false
+    default: ""
+  assets:
+    description: string of space separated assets to include in the release
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: create draft release
+      id: create
+      run: |-
+        resp="$(curl \
+          -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ inputs.token }}" \
+          https://api.github.com/repos/${{ inputs.owner }}/${{ inputs.repo }}/releases \
+          -d '{"tag_name":"${{ inputs.tag }}","name":"${{ inputs.name }}","body":"${{ inputs.body }}","draft":true,"prerelease":false,"generate_release_notes":false}')"
+        release_id="$(echo "$resp" | jq .id)"
+        echo "release_id=$release_id" >> $GITHUB_OUTPUT
+      shell: bash
+    - name: add assets
+      if: ${{ inputs.assets != '' }}
+      run: |-
+        for FILE in "${{ inputs.assets }}"
+        do
+          curl \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: $(file -b --mime-type $FILE)" \
+            --data-binary @$FILE \
+            "https://uploads.github.com/repos/${{ inputs.owner }}/${{ inputs.repo }}/releases/${{ steps.create.outputs.release_id }}/assets?name=$(basename $FILE)"
+        done
+      shell: bash
+    - name: finalize release
+      run: |-
+        curl \
+          -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ inputs.token }}" \
+          https://api.github.com/repos/${{ inputs.owner }}/${{ inputs.repo }}/releases/${{ steps.create.outputs.release_id }} \
+          -d '{"draft":false}'
+      shell: bash
