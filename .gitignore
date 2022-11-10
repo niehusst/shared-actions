@@ -1,2 +1,3 @@
 # Dependency directories
-node_modules/
+# (allow node_modules for dist so that deployed branch has access to deps)
+#node_modules/
