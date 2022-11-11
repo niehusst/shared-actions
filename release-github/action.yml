@@ -52,7 +52,7 @@ runs:
         for FILE in "${{ inputs.assets }}"
         do
           curl \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Authorization: token ${{ inputs.token }}" \
             -H "Content-Type: $(file -b --mime-type $FILE)" \
             --data-binary @$FILE \
             "https://uploads.github.com/repos/${{ inputs.owner }}/${{ inputs.repo }}/releases/${{ steps.create.outputs.release_id }}/assets?name=$(basename $FILE)"
