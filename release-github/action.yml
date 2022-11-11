@@ -5,7 +5,7 @@ inputs:
   token:
     description: github token to use to auth API request. Required if creating a release in a repo other than the one CI is running in
     required: false
-    default: ${{ secrets.GITHUB_TOKEN }}
+    default: ${{ github.token }}
   owner:
     description: github owner repo is located in
     required: true
