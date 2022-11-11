@@ -26,6 +26,11 @@ inputs:
     description: string of space separated assets to include in the release
     required: false
 
+outputs:
+  id:
+    description: ID of the created github release
+    value: ${{ steps.create.outputs.release_id }}
+
 runs:
   using: composite
   steps:
