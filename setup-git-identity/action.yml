@@ -1,0 +1,20 @@
+name: setup-git-identity
+description: Set git name and email
+
+inputs:
+  email:
+    description: email to set in repo local git config
+    required: false
+    default: 'ci@fakeemail.com'
+  name:
+    description: name to set in repo local git config
+    required: false
+    default: 'CI'
+
+runs:
+  using: composite
+  steps:
+    - run: |-
+        git config user.name ${{ inputs.name }}
+        git config user.email ${{ inputs.email }}
+      shell: bash
