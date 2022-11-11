@@ -58,4 +58,5 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/niehusst/shared-actions/releases/${{ steps.release.outputs.id }}
       - name: delete tag
+        if: always()
         run: git push --delete origin v999.9.9
