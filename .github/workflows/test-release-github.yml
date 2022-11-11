@@ -13,6 +13,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v3
+      - uses: ./setup-git-identity
       - name: create tag
         run: |-
           git tag -ma v999.9.9
