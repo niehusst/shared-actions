@@ -22,7 +22,7 @@ async function run({
   const assets = optionalInput(core.getInput('assets', { required: false }));
   const draft = optionalBooleanInput(core.getInput('draft', { required: false }));
 
-  let body = '';
+  let body;
   if (bodyText) {
     body = bodyText;
   } else if (bodyBase64) {
