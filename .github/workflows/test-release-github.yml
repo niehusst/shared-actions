@@ -50,7 +50,7 @@ jobs:
           test 'some body' = "$body"
           test 'false' = "$draft"
           test 'README.md' = "$asset0" -o 'LICENSE' = "$asset0"
-          test 'README.md' = "$asset1" -a 'LICENSE' = "$asset1"
+          test 'README.md' = "$asset1" -o 'LICENSE' = "$asset1"
 
       - name: delete release
         run: |-
