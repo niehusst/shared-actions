@@ -1,0 +1,43 @@
+name: release-github
+description: create a release in github using provided parameters
+
+inputs:
+  token:
+    description: github token to use to auth API request. Required if creating a release in a repo other than the one CI is running in
+    required: true
+    default: ${{ github.token }}
+  release_id:
+    description: id of the release to update, if not supplied, a new release will be created
+    required: false
+  owner:
+    description: github owner repo is located in. if not supplied, uses calling repo owner
+    required: false
+  repo:
+    description: github repo to create release in. if not supplied, uses calling repo owner
+    required: false
+  name:
+    description: name to give to created release
+    required: true
+  tag:
+    description: tag to create the release from
+    required: true
+  body:
+    description: body text to give to created release. takes precedence over body_base64
+    required: false
+  body_base64:
+    description: base64 encoded text to put in created release body
+    required: false
+  assets:
+    description: string of comma separated assets to include in the release
+    required: false
+  draft:
+    description: whether repo is a draft or not
+    required: false
+
+outputs:
+  id:
+    description: ID of the created github release
+
+runs:
+  using: node16
+  main: run.js
