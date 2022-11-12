@@ -3,7 +3,7 @@
 set -x 
 
 function get_latest_tags() {
-  get --no-pager tag \
+  git --no-pager tag \
     --sort=-creatordate \
     --list \
     --merged ${REF:-HEAD} \
@@ -14,5 +14,5 @@ output=$(get_latest_tags | head -n1)
 
 if ! [ -z "$output" ]
 then
-  echo "::set-output name=tag_name::$output"
+  echo "tag_name=$output" >> $GITHUB_OUTPUT
 fi
