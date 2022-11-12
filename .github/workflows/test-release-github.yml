@@ -38,12 +38,12 @@ jobs:
 
           set -ex
 
-          tag_name="$(echo "$release" | jq .tag_name)"
-          name="$(echo "$release" | jq .name)"
-          body="$(echo "$release" | jq .body)"
-          draft="$(echo "$release" | jq .draft)"
-          asset0="$(echo "$release" | jq .assets[0].name)"
-          asset1="$(echo "$release" | jq .assets[1].name)"
+          tag_name="$(echo "$release" | jq -r .tag_name)"
+          name="$(echo "$release" | jq -r .name)"
+          body="$(echo "$release" | jq -r .body)"
+          draft="$(echo "$release" | jq -r .draft)"
+          asset0="$(echo "$release" | jq -r .assets[0].name)"
+          asset1="$(echo "$release" | jq -r .assets[1].name)"
 
           test 'v999.9.9' = $tag_name
           test 'Test Release' = $name
