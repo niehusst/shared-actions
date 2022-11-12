@@ -1,5 +1,5 @@
 name: get-release-version
-descirption: Get version info for next release
+description: Get version info for next release
 
 inputs:
   latest_tag:
@@ -16,7 +16,7 @@ inputs:
 
 outputs:
   type:
-    descirption: type of next release (major, minor, patch)
+    description: type of next release (major, minor, patch)
   version:
     description: semantic version number of next release
 
