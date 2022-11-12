@@ -18,15 +18,13 @@ jobs:
               with:
                 ref: dist
                 fetch-depth: 0
-            - name: setup git auth
-              run: |-
-                git config user.name "Liam CI"
-                git config user.email "dummy@fakeemail.com"
+            - uses: ./setup-git-identity
             - run: |-
                 git fetch origin
                 git merge --no-edit origin/main
                 npm ci
                 cp .gitignore.dist .gitignore
-                git add .
-                git commit -m "ci: update actions [ci skip]"
-                git push origin
+            - uses: ./git-push
+              with:
+                file_pattern: node_modules
+                commit_message: 'ci: update node_modules [ci skip]'

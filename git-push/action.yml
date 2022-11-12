@@ -1,0 +1,29 @@
+name: git-push
+description: pushes changes matching file pattern if any
+
+inputs:
+  file_pattern:
+    description: files to commit
+    required: false
+  commit_message:
+    description: message for commit
+    required: false
+    default: 'ci: commit from niehusst/shared-actions/git-push [ci skip]'
+
+runs:
+  using: composite
+  steps:
+    - run: git pull --no-edit origin
+      shell: bash
+    - if: ${{ inputs.file_pattern != '' }}
+      run: |-
+        git add ${{ inputs.file_pattern }}
+        if ! git diff --staged --exit-code > /dev/null
+        then
+          git commit -m "${{ inputs.commit_message }}"
+        else
+          echo "Nothing to commit"
+        fi
+      shell: bash
+    - run: git push origin
+      shell: bash
