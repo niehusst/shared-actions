@@ -45,12 +45,12 @@ jobs:
           asset0="$(echo "$release" | jq -r .assets[0].name)"
           asset1="$(echo "$release" | jq -r .assets[1].name)"
 
-          test 'v999.9.9' = $tag_name
-          test 'Test Release' = $name
-          test 'some body' = $body
-          test 'false' = $draft
-          test 'README.md' = $asset0 -a 'LICENCE' = $asset1 \
-            -o 'README.md' = $asset1 -a 'LICENCE' = $asset0
+          test 'v999.9.9' = "$tag_name"
+          test 'Test Release' = "$name"
+          test 'some body' = "$body"
+          test 'false' = "$draft"
+          test 'README.md' = "$asset0" -a 'LICENCE' = "$asset1" \
+            -o 'README.md' = "$asset1" -a 'LICENCE' = "$asset0"
 
       - name: delete release
         run: |-
