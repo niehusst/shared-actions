@@ -10,6 +10,7 @@ async function run({
   core = coreImport,
   fs = fsImport,
 }) {
+  console.log('Starting...');
   const token = core.getInput('token', { required: true });
   const owner = optionalInput(core.getInput('owner', { required: false }));
   const repo = optionalInput(core.getInput('repo', { required: false }));

@@ -25,7 +25,7 @@ inputs:
     description: body text to give to created release. takes precedence over body_base64
     required: false
   body_base64:
-    description: base64 encoded text to put in created releasebody
+    description: base64 encoded text to put in created release body
     required: false
   assets:
     description: string of comma separated assets to include in the release
