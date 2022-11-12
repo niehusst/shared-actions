@@ -5,8 +5,8 @@ const coreImport = require('@actions/core');
 const fsImport = require('fs').promises;
 const { optionalInput, optionalBooleanInput } = require('../helpers/utils');
 
-async function run({ 
-  github = githubImport, 
+async function run({
+  github = githubImport,
   core = coreImport,
   fs = fsImport,
 }) {
@@ -46,7 +46,7 @@ async function run({
     });
   } else {
     // create new release
-    const { data: release } = await client.repos.createRelease( {
+    const { data: release } = await client.repos.createRelease({
       ...repoInfo,
       tag_name: tag,
       name,

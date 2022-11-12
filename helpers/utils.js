@@ -25,11 +25,10 @@ function optionalInput(input) {
 function optionalBooleanInput(input) {
   if (input === 'true') {
     return true;
-  } else if (input === 'false') {
+  } if (input === 'false') {
     return false;
-  } else {
-    return null;
   }
+  return null;
 }
 
 module.exports = {

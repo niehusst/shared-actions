@@ -9,7 +9,7 @@ test.beforeEach((t) => {
     fs: new FsStub(),
     core: new CoreStub(),
     github: new GithubStub({ repo: 'x', owner: 'y' }),
-  }
+  };
 });
 
 test('new release is created from data when releaseId not supplied', async (t) => {
@@ -33,7 +33,7 @@ test('new release is created from data when releaseId not supplied', async (t) =
 
   const fileUploadPromise = await run(t.context);
 
-  t.is(t.context.core.outputs['id'], 'release id');
+  t.is(t.context.core.outputs.id, 'release id');
   await fileUploadPromise;
   t.is(t.context.github.client.repos.uploadReleaseAsset.callCount, 3);
   t.assert(t.context.github.client.repos.uploadReleaseAsset.calledWith({
