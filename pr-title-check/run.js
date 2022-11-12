@@ -12,7 +12,7 @@ function run({ github = githubImport, core = coreImport } = {}) {
 
 module.exports = run;
 
-if (require.main === 'module') {
+if (require.main === module) {
   run().catch((e) => {
     console.error(e);
     coreImport.setFailed(e);
