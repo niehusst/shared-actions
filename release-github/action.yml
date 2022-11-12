@@ -33,6 +33,7 @@ inputs:
   draft:
     description: whether repo is a draft or not
     required: false
+    default: false
 
 outputs:
   id:
