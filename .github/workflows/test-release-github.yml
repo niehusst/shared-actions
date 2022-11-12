@@ -49,8 +49,8 @@ jobs:
           test 'Test Release' = "$name"
           test 'some body' = "$body"
           test 'false' = "$draft"
-          test 'README.md' = "$asset0" -o 'LICENCE' = "$asset0"
-          test 'README.md' = "$asset1" -a 'LICENCE' = "$asset1"
+          test 'README.md' = "$asset0" -o 'LICENSE' = "$asset0"
+          test 'README.md' = "$asset1" -a 'LICENSE' = "$asset1"
 
       - name: delete release
         run: |-
