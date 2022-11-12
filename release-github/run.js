@@ -45,7 +45,7 @@ async function run({
       release_id: releaseId,
       tag_name: tag,
       body,
-      draft,
+      draft: draft || false,
     });
   } else {
     // create new release
@@ -56,7 +56,7 @@ async function run({
       tag_name: tag,
       name,
       body,
-      draft,
+      draft: draft || false,
     });
 
     core.info(`Finished creating release with ID ${release.id}`);
