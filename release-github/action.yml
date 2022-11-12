@@ -4,7 +4,7 @@ description: create a release in github using provided parameters
 inputs:
   token:
     description: github token to use to auth API request. Required if creating a release in a repo other than the one CI is running in
-    required: false
+    required: true
     default: ${{ github.token }}
   release_id:
     description: id of the release to update, if not supplied, a new release will be created
