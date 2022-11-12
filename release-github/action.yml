@@ -37,7 +37,6 @@ inputs:
 outputs:
   id:
     description: ID of the created github release
-    value: ${{ steps.create.outputs.release_id }}
 
 runs:
   using: node16
