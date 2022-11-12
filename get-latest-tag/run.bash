@@ -2,6 +2,8 @@
 
 set -x 
 
+git fetch origin
+
 function get_latest_tags() {
   git --no-pager tag \
     --sort=-creatordate \
