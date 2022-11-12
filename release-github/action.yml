@@ -6,12 +6,15 @@ inputs:
     description: github token to use to auth API request. Required if creating a release in a repo other than the one CI is running in
     required: false
     default: ${{ github.token }}
+  release_id:
+    description: id of the release to update, if not supplied, a new release will be created
+    required: false
   owner:
-    description: github owner repo is located in
-    required: true
+    description: github owner repo is located in. if not supplied, uses calling repo owner
+    required: false
   repo:
-    description: github repo to create release in
-    required: true
+    description: github repo to create release in. if not supplied, uses calling repo owner
+    required: false
   name:
     description: name to give to created release
     required: true
@@ -19,11 +22,16 @@ inputs:
     description: tag to create the release from
     required: true
   body:
-    description: body text to give to created release
+    description: body text to give to created release. takes precedence over body_base64
     required: false
-    default: ""
+  body_base64:
+    description: base64 encoded text to put in created releasebody
+    required: false
   assets:
-    description: string of space separated assets to include in the release
+    description: string of comma separated assets to include in the release
+    required: false
+  draft:
+    description: whether repo is a draft or not
     required: false
 
 outputs:
@@ -32,38 +40,5 @@ outputs:
     value: ${{ steps.create.outputs.release_id }}
 
 runs:
-  using: composite
-  steps:
-    - name: create draft release
-      id: create
-      run: |-
-        resp="$(curl \
-          -X POST \
-          -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer ${{ inputs.token }}" \
-          https://api.github.com/repos/${{ inputs.owner }}/${{ inputs.repo }}/releases \
-          -d '{"tag_name":"${{ inputs.tag }}","name":"${{ inputs.name }}","body":"${{ inputs.body }}","draft":true,"prerelease":false,"generate_release_notes":false}')"
-        release_id="$(echo "$resp" | jq .id)"
-        echo "release_id=$release_id" >> $GITHUB_OUTPUT
-      shell: bash
-    - name: add assets
-      if: ${{ inputs.assets != '' }}
-      run: |-
-        for FILE in "${{ inputs.assets }}"
-        do
-          curl -sS \
-            -H "Authorization: token ${{ inputs.token }}" \
-            -H "Content-Type: $(file -b --mime-type $FILE)" \
-            --data-binary @$FILE \
-            "https://uploads.github.com/repos/${{ inputs.owner }}/${{ inputs.repo }}/releases/${{ steps.create.outputs.release_id }}/assets?name=$(basename $FILE)"
-        done
-      shell: bash
-    - name: finalize release
-      run: |-
-        curl \
-          -X POST \
-          -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer ${{ inputs.token }}" \
-          https://api.github.com/repos/${{ inputs.owner }}/${{ inputs.repo }}/releases/${{ steps.create.outputs.release_id }} \
-          -d '{"draft":false}'
-      shell: bash
+  using: node16
+  main: run.js
