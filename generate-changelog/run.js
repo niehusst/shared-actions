@@ -8,7 +8,7 @@ function makeList(array) {
   return array.map((v) => ` - ${v}`).join('\n');
 }
 
-async function run({ core = coreImport, exec = execImport }) {
+async function run({ core = coreImport, exec = execImport } = {}) {
   const startRef = core.getInput('since_ref', { required: false });
   const ref = core.getInput('ref', { required: true });
   const workingDirectory = core.getInput('working_directory', { required: true });
