@@ -9,7 +9,7 @@ async function run({
   github = githubImport,
   core = coreImport,
   fs = fsImport,
-}) {
+} = {}) {
   core.info('Starting...');
   const token = core.getInput('token', { required: true });
   const owner = optionalInput(core.getInput('owner', { required: false }));
