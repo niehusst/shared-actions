@@ -27,7 +27,7 @@ jobs:
           name: Test Release
           tag: v999.9.9
           body: some body
-          assets: './README.md ./LICENSE'
+          assets: './README.md, ./LICENSE'
           draft: false
       - name: check release
         run: |-

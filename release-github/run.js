@@ -10,7 +10,7 @@ async function run({
   core = coreImport,
   fs = fsImport,
 }) {
-  console.log('Starting...');
+  core.info('Starting...');
   const token = core.getInput('token', { required: true });
   const owner = optionalInput(core.getInput('owner', { required: false }));
   const repo = optionalInput(core.getInput('repo', { required: false }));
@@ -37,7 +37,7 @@ async function run({
 
   const client = github.getOctokit(token).rest;
   if (releaseId) {
-    console.log(`Updating release ${releaseId}`);
+    core.info(`Updating release ${releaseId}`);
 
     // update existing release
     await client.repos.updateRelease({
@@ -49,7 +49,7 @@ async function run({
     });
   } else {
     // create new release
-    console.log('Creating a new release!');
+    core.info('Creating a new release!');
 
     const { data: release } = await client.repos.createRelease({
       ...repoInfo,
@@ -59,14 +59,14 @@ async function run({
       draft,
     });
 
-    console.log(`Finished creating release with ID ${release.id}`);
+    core.info(`Finished creating release with ID ${release.id}`);
     releaseId = release.id;
   }
 
   let testOutput;
   if (assets) {
     const files = assets.split(',').map((f) => f.trim());
-    console.log(`Uploading files ${files}`);
+    core.info(`Uploading files ${files}`);
 
     // dont wait for file upload for action performance,
     // but save the promise for tests to wait for completion

@@ -8,6 +8,7 @@ class CoreStub {
     this.getInput = sinon.stub().callsFake(this.getInputString);
     this.setOutput = sinon.stub().callsFake(this.setOutputString);
     this.setFailed = sinon.spy();
+    this.info = sinon.stub();
   }
 
   getInputString(key, options) {
