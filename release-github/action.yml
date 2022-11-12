@@ -51,7 +51,7 @@ runs:
       run: |-
         for FILE in "${{ inputs.assets }}"
         do
-          curl \
+          curl -sS \
             -H "Authorization: token ${{ inputs.token }}" \
             -H "Content-Type: $(file -b --mime-type $FILE)" \
             --data-binary @$FILE \
