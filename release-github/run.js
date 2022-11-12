@@ -36,6 +36,8 @@ async function run({
 
   const client = github.getOctokit(token).rest;
   if (releaseId) {
+    console.log(`Updating release ${releaseId}`);
+
     // update existing release
     await client.repos.updateRelease({
       ...repoInfo,
@@ -46,6 +48,8 @@ async function run({
     });
   } else {
     // create new release
+    console.log('Creating a new release!');
+
     const { data: release } = await client.repos.createRelease({
       ...repoInfo,
       tag_name: tag,
@@ -54,12 +58,14 @@ async function run({
       draft,
     });
 
+    console.log(`Finished creating release with ID ${release.id}`);
     releaseId = release.id;
   }
 
   let testOutput;
   if (assets) {
     const files = assets.split(',').map((f) => f.trim());
+    console.log(`Uploading files ${files}`);
 
     // dont wait for file upload for action performance,
     // but save the promise for tests to wait for completion
