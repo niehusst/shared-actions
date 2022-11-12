@@ -13,6 +13,7 @@ inputs:
 runs:
   using: composite
   steps:
+    - uses: niehusst/shared-actions/setup-git-identity@dist
     - run: git pull --no-edit origin
       shell: bash
     - if: ${{ inputs.file_pattern != '' }}
