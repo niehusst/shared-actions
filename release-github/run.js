@@ -13,7 +13,7 @@ async function run({
   core.info('Starting...');
   const token = core.getInput('token', { required: true });
   const owner = optionalInput(core.getInput('owner', { required: false }));
-  const repo = optionalInput(core.getInput('repo', { required: false }));
+  const repoName = optionalInput(core.getInput('repo', { required: false }));
   const name = core.getInput('name', { required: true });
   let releaseId = optionalInput(core.getInput('release_id', { require: false }));
   const tag = core.getInput('tag', { required: true });
@@ -29,10 +29,10 @@ async function run({
     body = Buffer.from(bodyBase64, 'base64').toString('utf-8');
   }
 
-  const { repoCtx } = github.context;
+  const { repo } = github.context;
   const repoInfo = {
-    repo: repo || repoCtx.repo,
-    owner: owner || repoCtx.owner,
+    repo: repoName || repo.repo,
+    owner: owner || repo.owner,
   };
 
   const client = github.getOctokit(token).rest;
